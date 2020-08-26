@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React desde cero</title>
+</head>
+  <style>
+    img{
+      width: 100%;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #999;
+      cursor: pointer;
+    }
+    picture{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100px;
+    }
+    picture.is-small{
+      width: 50px;
+    }
+    picture.is-large{
+      width: 150px;
+    }
+    img.disabled{
+      opacity: .3;
+    }
+    div, h1{
+        font-family: Helvetica, sans-serif;
+    }
+    span{
+        display: block;
+        margin-left: 5.7rem;
+        font-size: 30px;
+        font-weight: bold;
+
+    }
+  </style>
+   <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<body>
+
+  <h1>Conatdor basico</h1>
+  <div id="app"></div> 
+
+
+  <script type="text/babel">
+    const $app = document.getElementById('app')
+    const useState = React.useState
+
+      const Avatar = ({id, name, size}) => {
+      const [enabled, setEnabled] = useState(true)
+
+    
+      const src =  `https://randomuser.me/api/portraits/women/${id}.jpg`
+      
+      
+      let pictureClassName = ' '
+      if(size === 'small'){
+        pictureClassName = 'is-small' 
+      }else if(size === 'large'){
+        pictureClassName = 'is-large'
+      }
+
+      const imgClassName = enabled ? '': 'disabled';
+
+      return (
+        <picture className={pictureClassName}>
+      {
+        id ? (
+          <img 
+               className={imgClassName} 
+               onClick={() => setEnabled(!enabled)} 
+               src={src} />
+        ) :  <img 
+               className={imgClassName} 
+               onClick={() => setEnabled(!enabled)} 
+               src="https://randomuser.me/api/portraits/lego/1.jpg"/>
+      }
+      <em>{enabled ? name: ""}</em>   
+        </picture>
+      )
+     }
+
+     function Contador(){
+        const [contador, setContador] = useState(50)
+        const [veces, setVeces] = useState(0)
+
+         return (
+         <div> 
+            <span>{contador}</span>
+            <button onClick={() => {
+                setContador(contador + 1)
+                setVeces(veces + 1) 
+            }}>Incrementar + </button>
+            <button onClick={() => {
+                setContador(contador - 1)
+                setVeces(veces + 1)
+                }}>Decrementar - </button>
+            <br/>
+            <h2>Numero de veces utilzados</h2>
+            <span>{veces}</span>
+         </div>
+         )
+     }
+
+     ReactDOM.render(
+
+      <div>
+        <Contador />
+      </div>,
+      $app
+     //  h('div', null, [h(Avatar,{id: 34}), h(Avatar,{id: 24})]), $app
+    
+     )
+
+  </script>
+  
+
+<!-- <script>
+  const $app = document.getElementById('app')
+  const Avatar = params => {
+    const images = `https://randomuser.me/api/portraits/women/${params.id}.jpg`
+    return`
+    <picture>
+    <img src="${images}" />
+      <em>${params.name}</em>
+    </picture>
+    `
+  }
+  $app.innerHTML += Avatar({id:34, name:'Aly'})
+  $app.innerHTML += Avatar({id:12, name:'gabi'})
+  $app.innerHTML += Avatar({id:43, name:'Rosi'})
+
+  $app.querySelectorAll('img').forEach(img =>{
+    img.addEventListener("click", () => {
+      img.classList.toggle("disabled")
+    })
+  })
+
+
+</script>  -->
+
+</body>
+</html>
